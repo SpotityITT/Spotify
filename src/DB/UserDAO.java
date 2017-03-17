@@ -30,12 +30,13 @@ public class UserDAO {
 	public synchronized boolean saveUser(User user) {
 
 		try {
-			String sql = "INSERT INTO users VALUES(?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO users (name,username,password,email,city,gender,birthday,mobilenumber,profilephoto_path) "
+					+ "VALUES(?,?,?,?,?,?,?,?,?)";
 			PreparedStatement statement = DatabaseManager.getInstance().getConnection().prepareStatement(sql);
 		
 
 			// Date sqlDate = DateFormat.parse(5, user.getBirthday());
-
+		
 			statement.setString(1, user.getName());
 			statement.setString(2, user.getUsername());
 			statement.setString(3, user.getPassword());
