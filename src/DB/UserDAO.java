@@ -7,12 +7,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import Model.User;
 
 public class UserDAO {
 	
-	
+	private static final String SELECT_ALL_USERS = "SELECT name,username,password,email,city,gender,birthday,mobilenumber,"
+			+ "profilephoto_path from users"; 
 	private static UserDAO instance;
 
 	private UserDAO() {
@@ -84,5 +87,44 @@ public class UserDAO {
 		}
 		return true;
 	}
+	
+	
+	 public List<User> getAllUsers() {
+	        List<User> users = new ArrayList<User>();
+	        Statement st = null;
+	        try {
+	            st = DatabaseManager.getInstance().getConnection().createStatement();
+
+	            ResultSet resultSet = st.executeQuery(SELECT_ALL_USERS);
+	            while (resultSet.next()) {
+	                User user = new User(resultSet.getString("name"),
+	                					resultSet.getString("username"), 
+	                					resultSet.getString("password"),
+	                					resultSet.getString("city"),
+	                					resultSet.getString("gender"),
+	                					resultSet.getString("mobileNumber"),
+	                					resultSet.getDate("birthday"), 
+	                					resultSet.getString("mobileNumber"));
+	                user.setId(resultSet.getInt("userId"));
+	              
+	                users.add(user);
+	            }
+
+	        } catch (SQLException e) {
+
+	            System.out.println("Error in DB");
+	            e.printStackTrace();
+
+	        } finally {
+	                    try {
+							st.close();
+						} catch (SQLException e) {
+							System.out.println("ops");
+						}
+	               
+	        }
+	        return users;
+	    }
+
 
 }

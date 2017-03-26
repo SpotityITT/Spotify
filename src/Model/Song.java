@@ -11,7 +11,6 @@ public class Song implements Comparable<Song>{
 	private String title;
 	private Album album;//?
 	private String artist;
-	private Genre genre;
 	private int timesPlayed;
 	private ArrayList<User> usersLiked;
 	
@@ -23,7 +22,6 @@ public class Song implements Comparable<Song>{
 		this.title = title;
 		this.album = album;
 		this.albumId = album.getId();
-		this.genre= album.getGenre();
 		this.artist = album.getArtist();
 	}
 

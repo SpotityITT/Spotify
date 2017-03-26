@@ -21,7 +21,7 @@ public class Platform {
 	
 	private static final String PLATFORM_NAME = "Spotify";
 	private String name;
-	private HashMap<Genre,ArrayList<Album>> albums; //for searching album by genre and name
+	private HashMap<String,ArrayList<Album>> albums; //for searching album by genre and name
 	private HashSet<Song> allSongs;  //for searching a song
 	private HashSet<User> users;
 	private static Platform getInstance;
@@ -68,7 +68,7 @@ public class Platform {
 	
 	public void addSongPlatofrm(Song song,Album album){ //add to album and to 
 		
-		for(Map.Entry<Genre,ArrayList<Album>> entry : this.albums.entrySet()){
+		for(Map.Entry<String,ArrayList<Album>> entry : this.albums.entrySet()){
 			if(album.equals(album)){
 				album.getSongs().add(song);
 			}
@@ -96,7 +96,7 @@ public class Platform {
 		
 		public ArrayList<Album> searchByAlbum(String text) { //returns an arrayList of matching albums
 			ArrayList<Album> albumsSearched = null;
-			for(Map.Entry<Genre,ArrayList<Album>> entry : albums.entrySet()){
+			for(Map.Entry<String,ArrayList<Album>> entry : albums.entrySet()){
 				for(Album a : entry.getValue()){
 					if(a.getTitle().toLowerCase().contains(text)){
 						albumsSearched.add(a);
@@ -110,7 +110,7 @@ public class Platform {
 		public ArrayList<Album> searchGenre(Genre genre){
 			ArrayList<Album> albumsSearched = null;
 			if(!albums.containsKey(genre)){
-				for(Map.Entry<Genre,ArrayList<Album>> entry : albums.entrySet()){
+				for(Map.Entry<String,ArrayList<Album>> entry : albums.entrySet()){
 					albumsSearched = entry.getValue();
 				}
 			}
@@ -173,7 +173,7 @@ public class Platform {
 	}
 
 
-	public Map<Genre, ArrayList<Album>> getAlbums() {
+	public Map<String, ArrayList<Album>> getAlbums() {
 		return Collections.unmodifiableMap(albums);
 	}
 

@@ -42,6 +42,7 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Rose/Desktop/KoziBG/KoziBG/WebContent/WEB-INF/lib/com.mysql.jdbc_5.1.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rose/Desktop/com.mysql.jdbc_5.1.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Rose/Documents/IT Talents/Spotify/WebContent/WEB-INF/lib/jstl-1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

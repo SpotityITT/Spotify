@@ -9,7 +9,7 @@ public class Album {
 	
 	private int albumId;
 	private String title;
-	private Genre genre;
+	private String genre;
 	private String photo;
 	private String artist;
 	private String description;
@@ -17,7 +17,7 @@ public class Album {
     private ArrayList<Comment> comments;
     
     
-	public Album(int albumId,String title, String artist, Genre genre) {
+	public Album(int albumId,String title, String artist, String genre) {
 		this.albumId = albumId;
 		this.title = title;
 		this.genre = genre;
@@ -32,7 +32,7 @@ public class Album {
 	}
 
 
-	public Genre getGenre() {
+	public String getGenre() {
 		// TODO Auto-generated method stub
 		return this.genre;
 	}

@@ -188,4 +188,11 @@ public class User {
 	}
 
 
+
+	public void setId(int id) {
+		// TODO Auto-generated method stub
+		this.userId = id;
+	}
+
+
 }
