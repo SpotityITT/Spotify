@@ -15,6 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import DB.UserDAO;
+import Exceptions.InvalidEmailException;
+import Exceptions.InvalidMobileNumberException;
+import Exceptions.InvalidNameException;
+import Exceptions.InvalidPasswordException;
+import Exceptions.InvalidUserLoginException;
+import Exceptions.InvalidUserNameException;
 import Model.Platform;
 import Model.User;
 
@@ -54,7 +60,28 @@ public class registserServlet extends HttpServlet {
 		
 		//some problems here with the parametes
 		
-		User user = new User(name, username, password, email, city, gender,null, mobileNumber);
+		User user = null;
+		try {
+			user = new User(name, username, password, email, city, gender,null, mobileNumber);
+		} catch (InvalidUserLoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidEmailException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidPasswordException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidMobileNumberException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidNameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidUserNameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}//TODO
 		if (!UserDAO.getInstance().saveUser(user)) {
 			System.out.println("SMT wrong.");
 			RequestDispatcher view = request.getRequestDispatcher("somFail.html"); //TODO

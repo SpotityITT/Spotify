@@ -10,6 +10,12 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import Exceptions.InvalidEmailException;
+import Exceptions.InvalidMobileNumberException;
+import Exceptions.InvalidNameException;
+import Exceptions.InvalidPasswordException;
+import Exceptions.InvalidUserLoginException;
+import Exceptions.InvalidUserNameException;
 import Model.User;
 
 public class UserDAO {
@@ -89,7 +95,7 @@ public class UserDAO {
 	}
 	
 	
-	 public List<User> getAllUsers() {
+	 public List<User> getAllUsers() throws InvalidUserLoginException, InvalidEmailException, InvalidPasswordException, InvalidMobileNumberException, InvalidNameException, InvalidUserNameException {
 	        List<User> users = new ArrayList<User>();
 	        Statement st = null;
 	        try {
