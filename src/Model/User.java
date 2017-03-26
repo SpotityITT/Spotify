@@ -9,6 +9,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.management.MBeanOperationInfo;
 
 import Exceptions.InvalidEmailException;
 import Exceptions.InvalidMobileNumberException;
@@ -39,20 +43,63 @@ public class User {
 	private String mobileNumber;
 	private ArrayList<Playlist> playLists;
 	private HashSet<Song> likedSongs;
+	private Pattern pattern = null;
+	private Matcher matcher = null;
 	
 	
 	public User(String name,String username, String password, String email, String city, String gender, Date birthday, String mobileNumber) throws InvalidUserLoginException, InvalidEmailException, InvalidPasswordException, InvalidMobileNumberException, InvalidNameException, InvalidUserNameException {
-		setName(name);
-		setMobileNumber(mobileNumber);
-		setEmail(email);
-		setPassword(password);
-		setUsername(username);
-		setGender(gender);
+		if(this.patternFinder(NAME_PATTERN, name)){//ok
+			this.name = name;
+			System.out.println("SUCCESS");
+		}
+		else{
+			throw new InvalidNameException();
+		}
+		if(this.patternFinder(EMAIL_PATTERN, email)){//ok
+			this.email = email;
+			System.out.println("SUCCESS");
+		}
+		else{
+			throw new InvalidEmailException();
+		}
+		if(this.patternFinder(PASSWORD_PATTERN, password)){//needs to be fixed
+			this.password = password;
+			System.out.println("SUCCESS");
+		}
+		else{
+			throw new InvalidPasswordException();
+		}
+		if(this.patternFinder(USERNAME_PATTERN, username)){////needs to be fixed
+			this.username = username;
+			System.out.println("SUCCESS");
+		}
+		else{
+			throw new InvalidUserNameException();
+		}
+		if(this.patternFinder(MOBILEPHONE_PATTERN, mobileNumber)){////needs to be fixed
+			this.mobileNumber = mobileNumber;
+			System.out.println("SUCCESS");
+		}
+		else{
+			throw new InvalidMobileNumberException();
+		}
+		this.gender = gender;
 		this.likedSongs = new HashSet<>();
 		this.playLists = new ArrayList<>();
 		this.birthday = birthday;
-		// validation for city?
 		this.city = city;
+	}
+	
+	
+	
+	public boolean patternFinder(String regex, String field) {
+		pattern = Pattern.compile(regex);
+		matcher = pattern.matcher(field);
+		if (matcher.matches() && !field.isEmpty() && field != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	

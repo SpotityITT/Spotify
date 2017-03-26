@@ -61,27 +61,27 @@ public class registserServlet extends HttpServlet {
 		//some problems here with the parametes
 		
 		User user = null;
-		try {
-			user = new User(name, username, password, email, city, gender,null, mobileNumber);
-		} catch (InvalidUserLoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidEmailException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidPasswordException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidMobileNumberException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidNameException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidUserNameException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}//TODO
+			try {
+				user = new User(name, username, password, email, city, gender,null, mobileNumber);
+			} catch (InvalidUserLoginException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidEmailException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidPasswordException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidMobileNumberException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidNameException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidUserNameException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		if (!UserDAO.getInstance().saveUser(user)) {
 			System.out.println("SMT wrong.");
 			RequestDispatcher view = request.getRequestDispatcher("somFail.html"); //TODO
