@@ -10,10 +10,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import Exceptions.InvalidEmailException;
+import Exceptions.InvalidMobileNumberException;
+import Exceptions.InvalidNameException;
+import Exceptions.InvalidPasswordException;
 import Exceptions.InvalidPlaylistException;
+import Exceptions.InvalidUserLoginException;
+import Exceptions.InvalidUserNameException;
 import Exceptions.PlayListWithSameNameException;
 
 public class User {
+	
+	private static final String NAME_PATTERN = "^[A-Za-z]+$";
+    private static final String EMAIL_PATTERN = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9]+.[a-z.]+$";
+    private static final String MOBILEPHONE_PATTERN = "^\\+[0-9]{2,3}+-[0-9]{10}$";
+    private static final String USERNAME_PATTERN = "^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
+    private static final String PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
 	
 	private int userId;
 	private String name;
@@ -29,23 +41,18 @@ public class User {
 	private HashSet<Song> likedSongs;
 	
 	
-	public User(String name,String username, String password, String email, String city, String gender, Date birthday, String mobileNumber) {
-		
-		this.name = name;
-	//validations
-			this.mobileNumber = mobileNumber;
-		
-			this.email = email;
-	
-			this.password = password;
-	
-			this.username = username;
-		
-			this.gender = gender;
-			this.likedSongs = new HashSet();
-			this.playLists = new ArrayList<>();
-			this.birthday = birthday;
-			this.city = city;
+	public User(String name,String username, String password, String email, String city, String gender, Date birthday, String mobileNumber) throws InvalidUserLoginException, InvalidEmailException, InvalidPasswordException, InvalidMobileNumberException, InvalidNameException, InvalidUserNameException {
+		setName(name);
+		setMobileNumber(mobileNumber);
+		setEmail(email);
+		setPassword(password);
+		setUsername(username);
+		setGender(gender);
+		this.likedSongs = new HashSet<>();
+		this.playLists = new ArrayList<>();
+		this.birthday = birthday;
+		// validation for city?
+		this.city = city;
 	}
 	
 	
@@ -56,7 +63,7 @@ public class User {
 				throw new PlayListWithSameNameException();
 			}
 		}
-		this.playLists.add(new Playlist(id,userId, title,song));
+		this.playLists.add(new Playlist(id,userId, title));
 	}
 	
 
@@ -70,10 +77,60 @@ public class User {
 	}
 	
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String name) throws InvalidNameException{
+		if(!name.equals(null) && !name.isEmpty() && name.matches(NAME_PATTERN)){
+			this.name = name;
+		}
+		else{
+			throw new InvalidNameException();
+		}
+	}
+	
+	public void setUsername(String username) throws InvalidUserNameException {
+		if(!username.equals(null) && !username.isEmpty() && username.matches(USERNAME_PATTERN)){
+			this.username = username;
+		}
+		else{
+			throw new InvalidUserNameException();
+		}
+	}
+	
+	public void setPassword(String password) throws InvalidPasswordException {
+		if(!password.equals(null) && !password.isEmpty() && password.matches(PASSWORD_PATTERN)){
+			this.password = password;
+		}
+		else{
+			throw new InvalidPasswordException();
+		}
+	}
+	
+	public void setEmail(String email) throws InvalidEmailException{
+		if(!email.equals(null) && !email.isEmpty() && email.matches(EMAIL_PATTERN)){
+			this.email = email;
+		}
+		else{
+			throw new InvalidEmailException();
+		}
+	}
+	
+	public void setMobileNumber(String mobileNumber) throws InvalidMobileNumberException{
+		if(!mobileNumber.equals(null) && !mobileNumber.isEmpty() && mobileNumber.matches(MOBILEPHONE_PATTERN)){
+			this.mobileNumber = mobileNumber;
+		}
+		else{
+			throw new InvalidMobileNumberException();
+		}
 	}
 
+	public void setGender(String gender) throws InvalidUserLoginException {
+		if(gender.equals("Male") || gender.equals("Female")){
+			this.gender = gender;
+		}
+		else{
+			throw new InvalidUserLoginException();
+		}
+	}
+	
 	public void setCity(String city) {
 		this.city = city;
 	}

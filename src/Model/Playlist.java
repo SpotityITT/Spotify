@@ -9,11 +9,10 @@ public class Playlist {
 	private ArrayList<Song> songs = new ArrayList<Song>();
 	
 	
-	public Playlist( int playlistId, int userId, String title, Song song) {
+	public Playlist( int playlistId, int userId, String title) {
 		this.playlistId = playlistId;
 		this.userId = userId;
 		this.title = title;
-		this.songs.add(song);
 	}
 	
 	
