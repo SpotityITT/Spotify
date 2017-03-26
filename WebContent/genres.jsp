@@ -122,7 +122,9 @@
         <% int i=1; %>
         <% for(String genre : AlbumDAO.getInstance().getAllGenres()) { %>
         <% String picture = "img/"+(i++)+ ".png"; %>
-        <li class="box"><h4><%= genre %></h4>
+        <li class="box"><h4><%= genre
+        
+        %></h4>
         <a href="img/image-blank.png" class="magnifier"><img alt=""  src="<%=picture %>"></a></li> 
 		<% }%>
        
