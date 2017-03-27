@@ -114,16 +114,13 @@
   <div id="content">
     <div class="container">
       <div class="row">
-        <article class="span12">
           <h3>Genres and Moods</h3>
-        </article>
         <div class="clear"></div>
         <ul class="portfolio clearfix">
         <% int i=1; %>
         <% for(String genre : AlbumDAO.getInstance().getAllGenres()) { %>
         <% String picture = "img/"+(i++)+ ".png"; %>
-        <li class="box"><h4><%= genre
-        
+        <li class="box"><h4><%= genre     
         %></h4>
         <a href="img/image-blank.png" class="magnifier"><img alt=""  src="<%=picture %>"></a></li> 
 		<% }%>

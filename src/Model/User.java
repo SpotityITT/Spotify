@@ -62,23 +62,23 @@ public class User {
 		else{
 			throw new InvalidEmailException();
 		}
-		if(this.patternFinder(PASSWORD_PATTERN, password)){//needs to be fixed
+//		if(this.patternFinder(PASSWORD_PATTERN, password)){//needs to be fixed
 			this.password = password;
-			System.out.println("SUCCESS");
-		}
-		else{
-			throw new InvalidPasswordException();
-		}
+//			System.out.println("SUCCESS");
+//		}
+//		else{
+//			throw new InvalidPasswordException();
+//		}
 		if(this.patternFinder(USERNAME_PATTERN, username)){////needs to be fixed
 			this.username = username;
-			System.out.println("SUCCESS");
+			System.out.println("SUCCESS" + username);
 		}
 		else{
 			throw new InvalidUserNameException();
 		}
 		if(this.patternFinder(MOBILEPHONE_PATTERN, mobileNumber)){////needs to be fixed
 			this.mobileNumber = mobileNumber;
-			System.out.println("SUCCESS");
+			System.out.println("SUCCESS " + mobileNumber);
 		}
 		else{
 			throw new InvalidMobileNumberException();

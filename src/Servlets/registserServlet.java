@@ -64,23 +64,17 @@ public class registserServlet extends HttpServlet {
 			try {
 				user = new User(name, username, password, email, city, gender,null, mobileNumber);
 			} catch (InvalidUserLoginException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 			} catch (InvalidEmailException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 			} catch (InvalidPasswordException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 			} catch (InvalidMobileNumberException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 			} catch (InvalidNameException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 			} catch (InvalidUserNameException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 			}
 		if (!UserDAO.getInstance().saveUser(user)) {
 			System.out.println("SMT wrong.");
