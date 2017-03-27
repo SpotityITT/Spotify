@@ -3,9 +3,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.mysql.jdbc.PreparedStatement;
-
 import DB.DatabaseManager;
+import DB.SongDAO;
 
 public class Demo {
 
@@ -13,18 +12,20 @@ public class Demo {
 		
 		
 		Connection connection = null;
-		try {
-			connection = DatabaseManager.getInstance().getConnection();
-			
-			System.out.println("Working");
-		}
-		finally {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					System.out.println(e.getClass().getName());
-				}
-		}
+//		try {
+//			connection = DatabaseManager.getInstance().getConnection();
+//			
+//			System.out.println("Working");
+//		}
+//		finally {
+//				try {
+//					connection.close();
+//				} catch (SQLException e) {
+//					System.out.println(e.getClass().getName());
+//				}
+//		}
+		
+		
 
 	}
 
