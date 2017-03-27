@@ -14,7 +14,7 @@ import Model.Playlist;
 public class PlayListDAO {
 	
 	Connection connection = DatabaseManager.getInstance().getConnection();
-	private static volatile PlayListDAO instance;
+	private static PlayListDAO instance;
 	
 	private PlayListDAO(){
 		

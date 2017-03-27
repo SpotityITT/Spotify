@@ -27,9 +27,8 @@ public class User {
 	
 	private static final String NAME_PATTERN = "^[A-Za-z]+$";
     private static final String EMAIL_PATTERN = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9]+.[a-z.]+$";
-    private static final String MOBILEPHONE_PATTERN = "^\\+[0-9]{2,3}+-[0-9]{10}$";
+    private static final String MOBILEPHONE_PATTERN = "([08]{2}+[0-9]{8})";
     private static final String USERNAME_PATTERN = "^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
-    private static final String PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
 	
 	private int userId;
 	private String name;
@@ -48,35 +47,35 @@ public class User {
 	
 	
 	public User(String name,String username, String password, String email, String city, String gender, Date birthday, String mobileNumber) throws InvalidUserLoginException, InvalidEmailException, InvalidPasswordException, InvalidMobileNumberException, InvalidNameException, InvalidUserNameException {
-		if(this.patternFinder(NAME_PATTERN, name)){//ok
+		if(this.patternFinder(NAME_PATTERN, name)){
 			this.name = name;
 			System.out.println("SUCCESS");
 		}
 		else{
 			throw new InvalidNameException();
 		}
-		if(this.patternFinder(EMAIL_PATTERN, email)){//ok
+		if(this.patternFinder(EMAIL_PATTERN, email)){
 			this.email = email;
 			System.out.println("SUCCESS");
 		}
 		else{
 			throw new InvalidEmailException();
 		}
-//		if(this.patternFinder(PASSWORD_PATTERN, password)){//needs to be fixed
+		if(this.patternFinder(USERNAME_PATTERN, password)){
 			this.password = password;
-//			System.out.println("SUCCESS");
-//		}
-//		else{
-//			throw new InvalidPasswordException();
-//		}
-		if(this.patternFinder(USERNAME_PATTERN, username)){////needs to be fixed
+			System.out.println("SUCCESS");
+		}
+		else{
+			throw new InvalidPasswordException();
+		}
+		if(this.patternFinder(USERNAME_PATTERN, username)){
 			this.username = username;
 			System.out.println("SUCCESS" + username);
 		}
 		else{
 			throw new InvalidUserNameException();
 		}
-		if(this.patternFinder(MOBILEPHONE_PATTERN, mobileNumber)){////needs to be fixed
+		if(this.patternFinder(MOBILEPHONE_PATTERN, mobileNumber)){
 			this.mobileNumber = mobileNumber;
 			System.out.println("SUCCESS " + mobileNumber);
 		}
@@ -143,7 +142,7 @@ public class User {
 	}
 	
 	public void setPassword(String password) throws InvalidPasswordException {
-		if(!password.equals(null) && !password.isEmpty() && password.matches(PASSWORD_PATTERN)){
+		if(!password.equals(null) && !password.isEmpty() && password.matches(USERNAME_PATTERN)){
 			this.password = password;
 		}
 		else{
