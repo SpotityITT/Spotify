@@ -61,9 +61,35 @@ public class SongDAO {
 		return songId;
 	}
 	
-	// search for song with title
-	public void searchForASong(String title){
-		
+	// search for a song by title or artist
+	public List<Song> searchForSong(String name){
+		String sqlQuery = "SELECT songId, albumId, title, artist FROM spotify.songs WHERE title LIKE ? OR artist LIKE ?";
+		String search = "%" + name + "%";
+		ArrayList<Song> songsMatching = null;
+		PreparedStatement prepStatement = null;
+		try {
+			prepStatement = connection.prepareStatement(sqlQuery);
+			prepStatement.setString(1, search);
+			prepStatement.setString(2, search);
+			ResultSet result = prepStatement.executeQuery();
+			songsMatching = new ArrayList<>();
+			while (result.next()) {
+				Song song = new Song(
+						result.getInt("songId"),
+						result.getInt("albumId"),
+						result.getString("title"),
+						result.getString("artist")
+						);
+				songsMatching.add(song);
+			}
+		} catch (SQLException e) {
+			System.out.println("Problem with DataBase in searchForSong! - " + e.getMessage());
+		}
+		if(songsMatching.size() == 0){
+			System.out.println("There is no such artist or song! ");
+			return null;
+		}
+		return Collections.unmodifiableList(songsMatching);
 	}
 	
 
