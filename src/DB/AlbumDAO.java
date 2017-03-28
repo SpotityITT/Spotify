@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import Model.Album;
 
@@ -17,10 +19,10 @@ public class AlbumDAO {
 	private static AlbumDAO instance;
 	private Connection c = DatabaseManager.getInstance().getConnection();
 	
-	private static final String SELECT_GENRES = "SELECT name FROM spotify.genres;";
 	private static final String SELECT_ALBUMS_BY_GENRE =
 		        "SELECT a.albumId,a.title,a.artist,a.genre FROM spotify.albums a JOIN spotify.genres g USING(genre_id) WHERE g.genre_id = ?;";
 	private static final String INSERT_ALBUM = "INSERT INTO spotify.albums (title, artist, description, genre,genre_Id) VALUES (?, ?, ?, ?, ?)";
+	private static final String SELECT_ALL_GENRES = "SELECT genre_id,name FROM spotify.genres;";
 
 	private AlbumDAO() {
 
@@ -34,37 +36,39 @@ public class AlbumDAO {
 	}
 	
 	
-	public List<String> getAllGenres() {
+	
+	public Map<Integer,String> getAllGenres() {
 
-		List<String> genres = new ArrayList<String>();
+		Map<Integer,String> genres = new TreeMap<Integer,String>();
 		Statement st;
 		try {
 			st = DatabaseManager.getInstance().getConnection().createStatement();
-			ResultSet resultSet = st.executeQuery(SELECT_GENRES);
+			ResultSet resultSet = st.executeQuery(SELECT_ALL_GENRES);
 			while (resultSet.next()) {
-				genres.add(resultSet.getString("name"));
+				genres.put(resultSet.getInt("genre_id"),resultSet.getString("name"));
 			}
 		} catch (SQLException e) {
 			System.out.println("Database error");
 		}
-		return Collections.unmodifiableList(genres);
+		return Collections.unmodifiableMap(genres);
 	}
 	
 	  
 	
 	
-	public List<Album> getGenreAlbums(int genre_id) {
+	public List<Album> getGenreAlbums(int id) {
 		List<Album> albumsInGenre = new ArrayList<Album>();
 		PreparedStatement ps;
 		try {
 			ps = c.prepareStatement(SELECT_ALBUMS_BY_GENRE);
-			ps.setInt(1, genre_id);
+			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Album album = new Album(rs.getInt("a.albumId"), 
 						rs.getString("a.title"),
 						rs.getString("a.artist"), 
 						rs.getString("a.genre"));
+			albumsInGenre.add(album);
 				
 			}
 		} catch (SQLException e) {

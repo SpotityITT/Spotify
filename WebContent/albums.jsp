@@ -1,8 +1,9 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="java.util.*"%>
-<%@ page import="DB.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.util.*"%>
+<%@ page import="DB.*"%>
+<%@ page import="Model.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -91,39 +92,30 @@
 </div>
 </div>
 
-<h2>Browse</h2>
+<h2> Indie</h2>
 
 <ul class="nav2">
-		<li id="settings">
-			<a href="#"><img src="settings.png" /></a>
-		</li>
 		<li>
-			<a href="#">Genres and Moods</a>
-		</li>
-		<li>
-			<a href="#">Top 10</a>
-		</li>
-		<li>
-			<a href="#">Recommended</a>
+			<h4>--- Albums</h4>
 		</li>
 		</ul>
 		
-	<p></p>
 <div class="spinner"></div>
 <div class="bg-content">
   <div id="content">
     <div class="container">
       <div class="row">
-          <h3>Genres and Moods</h3>
         <div class="clear"></div>
         <ul class="portfolio clearfix">
-        <% int i=1; %>
-        <% for(Map.Entry<Integer,String> entry : AlbumDAO.getInstance().getAllGenres().entrySet()) { %>
-        <% String picture = "img/"+(entry.getKey())+ ".png"; %>
-        <li class="box"><h4><%= "&nbsp&nbsp&nbsp&nbsp" + entry.getValue()    
+        <% int i=10; %>
+        <% String genreId =request.getParameter("Id");%>
+        <%	int j = Integer.parseInt(genreId);%>
+        <% for(Album album : AlbumDAO.getInstance().getGenreAlbums(j)) { %>
+        <% String picture = "img/"+(i++)+".jpg"; %>
+        <li class="box"><h4><%= "&nbsp&nbsp&nbsp&nbsp"+album.getTitle()   
         %></h4>
-        <a href=<%= "\"albums.jsp?Id="+entry.getKey()+"\""%> class="magnifier"><img alt="" src="<%=picture %>"></a></li> 
-		<% }%>
+         <a href=<%= "\"songs.jsp?Id1="+album.getId()+"\""%> class="magnifier"><img alt="" width=260px; height = 250px; src="<%=picture %>" ></a></li>
+		<% }%>     
         </ul>
       </div>
     </div>

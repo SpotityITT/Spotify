@@ -9,20 +9,16 @@ public class Song implements Comparable<Song>{
 	private int playlistId;
 	private int albumId;
 	private String title;
-	private Album album;//?
 	private String artist;
 	private int timesPlayed;
 	private ArrayList<User> usersLiked;
 	
 	
-	public Song(int songId,int userId,int playlistId,int albumId,String title, Album album,String artist) {
+	public Song(int songId,int albumId,String title,String artist) {
 		this.songId = songId;
-		this.userId = userId;
-		this.playlistId = playlistId;
 		this.title = title;
-		this.album = album;
-		this.albumId = album.getId();
-		this.artist = album.getArtist();
+		this.albumId = albumId;
+		this.artist = artist;
 	}
 
 
@@ -48,44 +44,12 @@ public class Song implements Comparable<Song>{
 		return this.timesPlayed;
 	}
 
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((album == null) ? 0 : album.hashCode());
-		result = prime * result + ((artist == null) ? 0 : artist.hashCode());
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		return result;
+	
+	public int getId(){
+		return this.songId;
 	}
 
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Song other = (Song) obj;
-		if (album == null) {
-			if (other.album != null)
-				return false;
-		} else if (!album.equals(other.album))
-			return false;
-		if (artist == null) {
-			if (other.artist != null)
-				return false;
-		} else if (!artist.equals(other.artist))
-			return false;
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
-			return false;
-		return true;
-	}
 
 	
 	public void addLikes(User user){

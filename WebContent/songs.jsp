@@ -1,8 +1,9 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="java.util.*"%>
-<%@ page import="DB.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.util.*"%>
+<%@ page import="DB.*"%>
+<%@ page import="Model.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -90,45 +91,91 @@
 <p> </p>
 </div>
 </div>
+ <% String albumId =request.getParameter("Id1");%>
+        <%int j = Integer.parseInt(albumId);%>
+        <%for (Song song : SongDAO.getInstance().getAllSongsFromAlbum(j)) { %>
+	<div class="album__tracks"> 
+                    <div class="tracks">
+                      
+                      <div class="tracks__heading">
+                      
+                        <div class="tracks__heading__number">1</div>
+                        
+                        <div class="tracks__heading__title"><%=song.getTitle()%></div>
+                        
+                        <div class="tracks__heading__length">
+                        
+                          <i class="ion-ios-stopwatch-outline"></i>
+                          
+                        </div>
+                        
+                        <div class="tracks__heading__popularity">
+                        
+                          <i class="ion-thumbsup"></i>
+                          
+                        </div>
+                        
+                      </div>
 
-<h2>Browse</h2>
+                      <div class="track">
 
-<ul class="nav2">
-		<li id="settings">
-			<a href="#"><img src="settings.png" /></a>
-		</li>
-		<li>
-			<a href="#">Genres and Moods</a>
-		</li>
-		<li>
-			<a href="#">Top 10</a>
-		</li>
-		<li>
-			<a href="#">Recommended</a>
-		</li>
-		</ul>
-		
-	<p></p>
-<div class="spinner"></div>
-<div class="bg-content">
-  <div id="content">
-    <div class="container">
-      <div class="row">
-          <h3>Genres and Moods</h3>
-        <div class="clear"></div>
-        <ul class="portfolio clearfix">
-        <% int i=1; %>
-        <% for(Map.Entry<Integer,String> entry : AlbumDAO.getInstance().getAllGenres().entrySet()) { %>
-        <% String picture = "img/"+(entry.getKey())+ ".png"; %>
-        <li class="box"><h4><%= "&nbsp&nbsp&nbsp&nbsp" + entry.getValue()    
-        %></h4>
-        <a href=<%= "\"albums.jsp?Id="+entry.getKey()+"\""%> class="magnifier"><img alt="" src="<%=picture %>"></a></li> 
-		<% }%>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
+                        <div class="track__number">1</div>
+
+                        <div class="track__added">
+
+                          <i class="ion-checkmark-round added"></i>
+
+                        </div>
+
+                        <div class="track__title">Intro</div>
+
+                        <div class="track__explicit">
+
+                          <span class="label">Explicit</span>
+
+                        </div>
+                        
+                        <div class="track__length">1:11</div>
+                        
+                        <div class="track__popularity">
+                        
+                          <i class="ion-arrow-graph-up-right"></i>
+                          
+                        </div>
+
+                      </div>
+                                     <div class="track">
+
+                        <div class="track__number">1</div>
+
+                        <div class="track__added">
+
+                          <i class="ion-checkmark-round added"></i>
+
+                        </div>
+
+                        <div class="track__title">Intro</div>
+
+                        <div class="track__explicit">
+
+                          <span class="label">Explicit</span>
+
+                        </div>
+                        
+                        <div class="track__length">1:11</div>
+                        
+                        <div class="track__popularity">
+                        
+                          <i class="ion-arrow-graph-up-right"></i>
+                          
+                        </div>
+
+                      </div>
+          
+          </div>
+          </div>
+         <%} %>
+
 <script src="js/bootstrap.js"></script>
 
 	<script src="prefixfree-1.0.7.js" type="text/javascript"></script>

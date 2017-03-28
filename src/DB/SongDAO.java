@@ -5,14 +5,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import Model.Album;
 import Model.Genre;
+import Model.Song;
 
 public class SongDAO {
 	
 	Connection connection = DatabaseManager.getInstance().getConnection();
 	private static SongDAO instance;
-	
+	private static final String SElECT_ALL_SONGS = "SELECT s.songId,s.title,s.artist,s.albumId "
+			+ "from spotify.songs s join spotify.albums a USING(albumId) where a.albumId = ?;";
+
+			
 	private SongDAO(){
 		
 	}
@@ -56,6 +64,31 @@ public class SongDAO {
 	// search for song with title
 	public void searchForASong(String title){
 		
+	}
+	
+
+	//for visualisation
+	public List<Song> getAllSongsFromAlbum(int albumId) {
+		List<Song> songsInAlbum = new ArrayList<Song>();
+		PreparedStatement ps;
+		try {
+			ps = connection.prepareStatement(SElECT_ALL_SONGS);
+			ps.setInt(1, albumId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Song song = new Song(rs.getInt("songId"), 
+										rs.getInt("albumId"), 
+										rs.getString("title"),
+										rs.getString("artist"));
+				
+				songsInAlbum.add(song);
+				System.out.println(albumId);
+				System.out.println("Songs " + songsInAlbum);
+			}
+		} catch (SQLException e) {
+			System.out.println("DB problem with selcting all songs." + e.getMessage());
+		}
+		return Collections.unmodifiableList(songsInAlbum);
 	}
 
 }
