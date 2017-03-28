@@ -12,6 +12,7 @@ public class Song implements Comparable<Song>{
 	private String artist;
 	private int timesPlayed;
 	private ArrayList<User> usersLiked;
+	private String length;
 	
 	
 	public Song(int songId,int albumId,String title,String artist) {
@@ -48,9 +49,18 @@ public class Song implements Comparable<Song>{
 	public int getId(){
 		return this.songId;
 	}
+	
+	public void setLength(String length){
+		this.length = length;
+	}
+	
+	public String getLength(){
+		return this.length;
+	}
 
-
-
+	public String getArtist(){
+		return this.artist;
+	}
 	
 	public void addLikes(User user){
 		this.usersLiked.add(user);

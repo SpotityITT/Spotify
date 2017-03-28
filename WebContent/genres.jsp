@@ -117,7 +117,6 @@
           <h3>Genres and Moods</h3>
         <div class="clear"></div>
         <ul class="portfolio clearfix">
-        <% int i=1; %>
         <% for(Map.Entry<Integer,String> entry : AlbumDAO.getInstance().getAllGenres().entrySet()) { %>
         <% String picture = "img/"+(entry.getKey())+ ".png"; %>
         <li class="box"><h4><%= "&nbsp&nbsp&nbsp&nbsp" + entry.getValue()    

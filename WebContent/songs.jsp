@@ -1,22 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="java.util.*"%>
-<%@ page import="DB.*"%>
-<%@ page import="Model.*"%>
+    <%@page import = "DB.*" %>
+     <%@page import = "Model.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Karol Hotar  http://livebooster.com | info@livebooster.com">
 <meta name="keywords" content="webdesign, design, ux, ui, html, css, jquery, website">
 <meta name="description" content="Karol Hotár creative Web designer">
 <meta name="googlebot" content="all">
 <meta name="robots" content="index, follow">
-
 <!-- Page Title -->
-<title>Moods and Genres</title>
+<title>jQuery Off-canvas Navigation Example</title>
 <!--================================================= 
         Bootstrap core CSS
        ==================================================-->
@@ -26,6 +23,7 @@
         ==================================================-->
 <link href="style.css" rel="stylesheet">
 <link href="font-awesome.min.css" rel="stylesheet">
+<link href="csss.css" rel="stylesheet">
 <!--=================================================  
         Google Fonts
          ==================================================-->
@@ -38,12 +36,14 @@
     <![endif]-->
     
     <link href="flatnav.css" rel="stylesheet">
-  <link href="flatnav2.css" rel="stylesheet">
 		<meta name="robots" content="noindex,follow" />
     
+    
+    
+    
 </head>
-<body>
 
+<body>
 
 <body background = "bg.png"/>
 <div id="slide-menu">
@@ -91,92 +91,57 @@
 <p> </p>
 </div>
 </div>
+
  <% String albumId =request.getParameter("Id1");%>
-        <%int j = Integer.parseInt(albumId);%>
-        <%for (Song song : SongDAO.getInstance().getAllSongsFromAlbum(j)) { %>
-	<div class="album__tracks"> 
-                    <div class="tracks">
-                      
-                      <div class="tracks__heading">
-                      
-                        <div class="tracks__heading__number">1</div>
-                        
-                        <div class="tracks__heading__title"><%=song.getTitle()%></div>
-                        
-                        <div class="tracks__heading__length">
-                        
-                          <i class="ion-ios-stopwatch-outline"></i>
-                          
-                        </div>
-                        
-                        <div class="tracks__heading__popularity">
-                        
-                          <i class="ion-thumbsup"></i>
-                          
-                        </div>
-                        
-                      </div>
+ <%int j = Integer.parseInt(albumId);%>
+ <% Album a = null; %>
+ 
+ <%for(Integer x : AlbumDAO.getInstance().getAllGenres().keySet()){%>
+ <%for(Album album : AlbumDAO.getInstance().getGenreAlbums(x)) { %>
+ <%if(album.getId()==j){ %>
+ <%a = album;%>
+ <%}}} %>
 
-                      <div class="track">
-
-                        <div class="track__number">1</div>
-
-                        <div class="track__added">
-
-                          <i class="ion-checkmark-round added"></i>
-
-                        </div>
-
-                        <div class="track__title">Intro</div>
-
-                        <div class="track__explicit">
-
-                          <span class="label">Explicit</span>
-
-                        </div>
-                        
-                        <div class="track__length">1:11</div>
-                        
-                        <div class="track__popularity">
-                        
-                          <i class="ion-arrow-graph-up-right"></i>
-                          
-                        </div>
-
-                      </div>
-                                     <div class="track">
-
-                        <div class="track__number">1</div>
-
-                        <div class="track__added">
-
-                          <i class="ion-checkmark-round added"></i>
-
-                        </div>
-
-                        <div class="track__title">Intro</div>
-
-                        <div class="track__explicit">
-
-                          <span class="label">Explicit</span>
-
-                        </div>
-                        
-                        <div class="track__length">1:11</div>
-                        
-                        <div class="track__popularity">
-                        
-                          <i class="ion-arrow-graph-up-right"></i>
-                          
-                        </div>
-
-                      </div>
-          
+<div class='center-container'>
+  <div class='center'>
+    <div id='ui'>
+      <header>
+        <h1><%=a.getArtist() + " - "+ " ' " + a.getTitle()+ " ' "%></h1>
+      </header>
+      <main>
+        <div class='split-l'></div>
+        <div class='split-l'></div>
+        <div id='songs'>
+          <div class='song-set'>
+          <% int i = 1; %>
+          <%for(Song song : SongDAO.getInstance().getAllSongsFromAlbum(j)) { %>
+            <div class='song'>
+              <audio src='<%=i++%>.mp3'></audio>
+              <img src='music.png' width=46px; height=40px;>
+              <div class='details'>
+                <div class='name'><%= song.getTitle() %></div>
+                <div class='producer'><%= song.getArtist() %></div>
+              </div>
+              <div class='play'>
+                <i class='material-icons'>play_arrow</i>
+              </div>
+              <div class='controlls'>
+                <div class='pos'>0:00</div>
+                <i class='material-icons prv'>fast_rewind</i>
+                <i class='material-icons nxt'>fast_forward</i>
+                <div class='length'>0:00</div>  
+              </div>
+            </div>
+             <div class='split-l'></div>
+            <%} %>
+            </div>
           </div>
-          </div>
-         <%} %>
+      </main>
+    </div>
+  </div>
+</div>
 
-<script src="js/bootstrap.js"></script>
+
 
 	<script src="prefixfree-1.0.7.js" type="text/javascript"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -191,5 +156,150 @@
 				});
 
 	   </script> 
+<script type="text/javascript" src="jquery-1.8.3.js"></script>
+<script type="text/javascript">
+
+var selectedGenre = "hardstyle";
+var isPlaying = 0;
+
+$(".play").click(function(e)
+{
+	if ($(e.target).parent().hasClass("playing"))
+	{
+		$(".song").find("audio").trigger("pause");
+		isPlaying = 0;
+		$(".song").removeClass("playing");
+		$(".play").find("i").html("play_arrow");
+		
+		e.stopPropagation();
+	}
+});
+$(".play i").click(function(e)
+{
+	if ($(e.target).parent().parent().hasClass("playing"))
+	{
+		$(".song").find("audio").trigger("pause");
+		isPlaying = 0;
+		$(".song").removeClass("playing");
+		$(".play").find("i").html("play_arrow");
+		
+		e.stopPropagation();
+	}
+});
+
+$(".song").click(function(e)
+{
+	var songCard = e.target;
+	while (!$(songCard).hasClass("song")) songCard = $(songCard).parent();
+	
+	if (!$(songCard).hasClass("playing"))
+	{
+		$(".song").find("audio").trigger("pause");
+		$(".song").removeClass("playing");
+		$(".play").find("i").html("play_arrow");
+		
+		var del = 300 * isPlaying;
+		
+		var len = '' + Math.floor($(songCard).find("audio")[0].duration / 60) + ':';
+		if (Math.ceil($(songCard).find("audio")[0].duration % 60) < 10)
+			len = len + '0' + Math.ceil($(songCard).find("audio")[0].duration % 60);
+		else
+			len = len + Math.ceil($(songCard).find("audio")[0].duration % 60);
+		
+		$(songCard).find(".length").html(len);
+		
+		setTimeout(function()
+		{
+			$(songCard).find("audio").trigger("play");
+			isPlaying = 1;
+			$(songCard).addClass("playing").delay(1000);
+			$(songCard).find(".play").find("i").html("pause");
+		}, del);
+	}
+	
+	e.stopPropagation();
+});
+
+$(".prv").click(function(e)
+{
+	var songCard = e.target;
+	while (!$(songCard).hasClass("song")) songCard = $(songCard).parent();
+	
+	$(songCard).find("audio").prop("currentTime", 0);
+	
+	$(songCard).find(".pos").html(Math.floor($(songCard).find("audio").prop("currentTime") / 60) + ":" + Math.ceil($(songCard).find("audio").prop("currentTime") % 60));
+	
+	e.stopPropagation();
+});
+
+$(".nxt").click(function(e)
+{
+	var songCard = e.target;
+	while (!$(songCard).hasClass("song")) songCard = $(songCard).parent();
+	
+	$(songCard).find("audio").prop("currentTime", $(songCard).find("audio").prop("currentTime") + 10);
+	
+	$(songCard).find(".pos").html(Math.floor($(songCard).find("audio").prop("currentTime") / 60) + ":" + Math.ceil($(songCard).find("audio").prop("currentTime") % 60));
+	
+	e.stopPropagation();
+});
+
+function selectGenre(idNow, now)
+{
+	$(".song").find("audio").trigger("pause");
+	$(".song").removeClass("playing");
+	$(".play").find("i").html("play_arrow");
+	
+	var del = 300 * isPlaying;
+	
+	setTimeout(function()
+	{
+		$("#songs").css("left", 600 * now * -1 + "px");
+		
+		$("#" + idNow).css("left", "0px");
+		$("#" + idNow).css("opacity", "1");
+	}, del);
+	
+	isPlaying = 0;
+	
+	selectedGenre = idNow;
+}
+
+$(".genre").click(function(e)
+{
+	$(".genre").removeClass("selected");
+	$(e.target).addClass("selected");
+	
+	selectGenre($(e.target).html().toLowerCase().replace(" ", "-"), $(e.target).index());
+});
+
+$(document).ready
+{
+	selectGenre("hardstyle", 0);
+	
+	setInterval(function()
+	{
+		$(".playing").each(function()
+		{
+			var pos = '' + Math.floor($(this).find("audio").prop("currentTime") / 60) + ':';
+			if (Math.ceil($(this).find("audio").prop("currentTime") % 60) < 10)
+				pos = pos + '0' + Math.ceil($(this).find("audio").prop("currentTime") % 60);
+			else
+				pos = pos + Math.ceil($(this).find("audio").prop("currentTime") % 60);
+			
+			$(this).find(".pos").html(pos);
+			
+			if ($(this).find("audio").prop("currentTime") >= $(this).find("audio")[0].duration)
+			{
+				$(".song").find("audio").trigger("pause");
+				$(".song").removeClass("playing");
+				$(".play").find("i").html("play_arrow");
+			}
+		})
+	}, 1000);
+}
+
+</script>
+
 </body>
 </html>

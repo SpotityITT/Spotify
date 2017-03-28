@@ -112,8 +112,8 @@
         <%	int j = Integer.parseInt(genreId);%>
         <% for(Album album : AlbumDAO.getInstance().getGenreAlbums(j)) { %>
         <% String picture = "img/"+(i++)+".jpg"; %>
-        <li class="box"><h4><%= "&nbsp&nbsp&nbsp&nbsp"+album.getTitle()   
-        %></h4>
+        <li class="box"><h5><%= "&nbsp&nbsp&nbsp&nbsp"+album.getTitle()   
+        %></h5>
          <a href=<%= "\"songs.jsp?Id1="+album.getId()+"\""%> class="magnifier"><img alt="" width=260px; height = 250px; src="<%=picture %>" ></a></li>
 		<% }%>     
         </ul>
@@ -121,9 +121,9 @@
     </div>
   </div>
 </div>
-<script src="js/bootstrap.js"></script>
 
-	<script src="prefixfree-1.0.7.js" type="text/javascript"></script>
+<script src="js/bootstrap.js"></script>
+<script src="prefixfree-1.0.7.js" type="text/javascript"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
 				$(document).ready(function () {
