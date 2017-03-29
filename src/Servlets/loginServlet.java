@@ -37,6 +37,9 @@ public class loginServlet extends HttpServlet {
 			String htmlFile;
 			
 			if(UserDAO.getInstance().isValidLogin(username, password)){
+				HttpSession session = request.getSession();
+				session.setAttribute("username", username);
+				session.setAttribute("isLogged", true);
 				htmlFile = "successLoginPage.html"; //TODO
 			}
 			else{
