@@ -65,14 +65,14 @@ public class SongDAO {
 	public List<Song> searchForSong(String name){
 		String sqlQuery = "SELECT songId, albumId, title, artist FROM spotify.songs WHERE title LIKE ? OR artist LIKE ?";
 		String search = "%" + name + "%";
-		ArrayList<Song> songsMatching = null;
+		ArrayList<Song> songsMatching = new ArrayList<>();
 		PreparedStatement prepStatement = null;
 		try {
 			prepStatement = connection.prepareStatement(sqlQuery);
 			prepStatement.setString(1, search);
 			prepStatement.setString(2, search);
 			ResultSet result = prepStatement.executeQuery();
-			songsMatching = new ArrayList<>();
+			
 			while (result.next()) {
 				Song song = new Song(
 						result.getInt("songId"),

@@ -38,9 +38,6 @@
     <link href="flatnav.css" rel="stylesheet">
 		<meta name="robots" content="noindex,follow" />
     
-    
-    
-    
 </head>
 
 <body>
@@ -92,22 +89,18 @@
 </div>
 </div>
 
- <% String albumId =request.getParameter("Id1");%>
- <%int j = Integer.parseInt(albumId);%>
- <% Album a = null; %>
- 
- <%for(Integer x : AlbumDAO.getInstance().getAllGenres().keySet()){%>
- <%for(Album album : AlbumDAO.getInstance().getGenreAlbums(x)) { %>
- <%if(album.getId()==j){ %>
- <%a = album;%>
- <%}}} %>
- 
- 
+<%
+String keyword = "";
+if(request.getParameter("search_text") != null) {
+	keyword = request.getParameter("search_text");
+}
+%>
+
 <div class='center-container'>
   <div class='center'>
     <div id='ui'>
       <header>
-        <h1><%=a.getArtist() + " - "+ " ' " + a.getTitle()+ " ' "%></h1>
+        <h1>You searched for '<%=keyword%>'</h1>
       </header>
       <main>
         <div class='split-l'></div>
@@ -115,7 +108,8 @@
         <div id='songs'>
           <div class='song-set'>
           <% int i = 1; %>
-          <%for(Song song : SongDAO.getInstance().getAllSongsFromAlbum(j)) { %>
+          <% if(SongDAO.getInstance().searchForSong(keyword)!=null){%>
+          	<%for(Song song : SongDAO.getInstance().searchForSong(keyword)) { %>
              <div class='song'>
               <audio src='<%=i++%>.mp3'></audio>
               <img src='music.png' width=46px; height=40px;>
@@ -131,11 +125,11 @@
                 <i class='material-icons prv'>fast_rewind</i>
                 <i class='material-icons nxt'>fast_forward</i>
                 <div class='length'>0:00</div>  
-              </div>
-             
+              </div>    
             </div>
              <div class='split-l'></div>
-            <%} %>
+            <%}} %>
+           
             </div>
           </div>
       </main>
