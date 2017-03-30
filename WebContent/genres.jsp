@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page errorPage="error.jsp"%>
 <%@page import="java.util.*"%>
 <%@ page import="DB.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
