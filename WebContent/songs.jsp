@@ -24,6 +24,7 @@
 <link href="style.css" rel="stylesheet">
 <link href="font-awesome.min.css" rel="stylesheet">
 <link href="csss.css" rel="stylesheet">
+<link href="button.css" rel="stylesheet">
 <!--=================================================  
         Google Fonts
          ==================================================-->
@@ -103,6 +104,28 @@
  <%}}} %>
  
  
+ <div class="bg-content">
+  <div id="content">
+    <div class="container">
+   
+      <div class="row">
+       <h1><%= "&nbsp&nbsp&nbsp&nbsp"+a.getTitle()   
+        %></h1>
+        <div class="clear"></div>
+        <ul class="portfolio clearfix">
+        <% int c=10; %>
+        <% String genreId =request.getParameter("Id");%>
+        <% String picture = "img/"+(c++)+".jpg"; %>
+     
+        <li class="box">
+         <a href=<%= "\"songs.jsp?Id1="+a.getId()+"\""%> class="magnifier"><img alt="" width=260px; height = 250px; src="<%=picture %>" ></a></li>
+              
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class='center-container'>
   <div class='center'>
     <div id='ui'>
@@ -116,7 +139,18 @@
           <div class='song-set'>
           <% int i = 1; %>
           <%for(Song song : SongDAO.getInstance().getAllSongsFromAlbum(j)) { %>
-             <div class='song'>
+             
+		<% int playlistId = PlayListDAO.getInstance().getPlaylistId(playlist);%>
+		<form action = <%= "\"albums.jsp?Id="+song.getId()+"&song_id="song.getId()+"\""%>"\""%> method = "post">
+		<%int songId = song.getId(); %>
+       <select name="playlistName">
+          
+       </select>
+     <input type="submit" name="playlistName" value="Select Color" />
+    </form>		
+	
+            
+            <div class='song'>
               <audio src='<%=i++%>.mp3'></audio>
               <img src='music.png' width=46px; height=40px;>
               <div class='details'>

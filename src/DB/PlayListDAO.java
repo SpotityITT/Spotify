@@ -1,6 +1,8 @@
 package DB;
 
 import java.sql.Connection;
+
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 import Model.Playlist;
+
 
 public class PlayListDAO {
 	
@@ -49,6 +52,7 @@ public class PlayListDAO {
 		return playListId;
 	}
 	
+	
 	// add a song to playList
 	public void addSongInPlayList(int playList_id, int song_id) throws SQLException{
 		String sqlQuery = "INSERT INTO spotify.playlists_songs (playlistId, songId) VALUES (?,?) ";
@@ -65,7 +69,7 @@ public class PlayListDAO {
 	}
 	
 	// samo da gi vidim 
-	public List<Playlist> getUserPlayLists() throws SQLException{
+	public List<Playlist> getAllPlayLists() throws SQLException{
 		String sqlQuery = "SELECT playlistId, title, userId FROM spotify.playlists";
 		List<Playlist> allPlayLists = new ArrayList<>();
 		Statement statement = null;
@@ -81,5 +85,56 @@ public class PlayListDAO {
 		}
 		return Collections.unmodifiableList(allPlayLists);
 	}
+	
+	
+	public List<Playlist> getUserPlaylists(int userId) throws SQLException{
+		String sqlQuery = "SELECT p.playlistId, p.title, p.userId FROM spotify.playlists p "
+				+ "join spotify.users using(userId) where userId = ?;";
+		
+		List<Playlist> allPlayLists = new ArrayList<>();
+		PreparedStatement ps = null;
+		try{
+			ps = connection.prepareStatement(sqlQuery);
+			ps.setInt(1, userId);
+			
+			ResultSet resultSet = ps.executeQuery(sqlQuery);
+			
+			while(resultSet.next()){
+				allPlayLists.add(new Playlist(resultSet.getInt("playlistId"),
+						resultSet.getInt("userId"), 
+						resultSet.getString("title")));
+			}
+		}
+		
+		finally{
+			ps.close();
+		}
+		return Collections.unmodifiableList(allPlayLists);
+	}
+	
 
+	
+	public int getPlaylistId(String name){
+		String sql = "select playlistId from spotify.playlists where title = ?;";
+		PreparedStatement ps = null;
+		int id = 0;
+		
+		try {
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, name);
+			ResultSet rs = ps.executeQuery(sql);
+			
+			while(rs.next()){
+				id = rs.getInt("playlistId");
+			}
+		}
+		catch(SQLException e)
+		{
+			System.out.println("DB problem selecting the playlist.");
+		}
+		return id;
+	}
+
+		
 }
+

@@ -318,6 +318,9 @@ select,
 textarea {
   font-family: inherit;
   font-size: inherit;
+  margin-bottom:-40px;
+  margin-top:20px;
+  color: #2a6496;
   line-height: inherit;
 }
 
