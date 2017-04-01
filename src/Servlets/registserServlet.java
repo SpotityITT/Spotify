@@ -2,6 +2,7 @@ package Servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -23,7 +24,6 @@ import Exceptions.InvalidUserLoginException;
 import Exceptions.InvalidUserNameException;
 import Model.Platform;
 import Model.User;
-
 
 /**
  * Servlet implementation class RegistrationServlet
@@ -48,6 +48,18 @@ public class registserServlet extends HttpServlet {
 		String city = request.getParameter("city");
 		String gender = request.getParameter("gender");
 	
+		//String birthday = request.getParameter("birthday");
+		
+//		DateFormat dateFormat = new SimpleDateFormat("dd.mm.yyyy");
+//		Date result = null;
+//		try {
+//			result = dateFormat.parse(birthday);
+//		} catch (ParseException e1) {
+//			System.out.println("Error in parsing birthday - " + e1.getMessage());
+//		}
+//		
+//		System.out.println(result);
+		
 //		Date birthday = null;
 //		
 //		try {
@@ -93,6 +105,7 @@ public class registserServlet extends HttpServlet {
 					view2.forward(request, response);
 				}
 			}
+
 		
 	}
 

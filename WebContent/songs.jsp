@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ page errorPage="error.jsp"%>
     <%@page import = "DB.*" %>
      <%@page import = "Model.*" %>
      <%@page import = "java.util.*" %>

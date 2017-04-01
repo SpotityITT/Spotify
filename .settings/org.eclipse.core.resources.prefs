@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
 encoding//WebContent/user.jsp=UTF-8
+=======
+encoding//WebContent/error.jsp=UTF-8
+>>>>>>> 46a0cec06a8ba04c1feccbb0cc61628cd708ea17
