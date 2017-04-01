@@ -36,7 +36,9 @@ public class Playlist {
 		return this.title;
 	}
 
-	
+	public int getPlaylistId(){
+		return this.playlistId;
+	}
 	
 
 }

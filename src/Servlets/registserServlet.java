@@ -62,7 +62,7 @@ public class registserServlet extends HttpServlet {
 		
 		User user = null;
 			try {
-				user = new User(name, username, password, email, city, gender,null, mobileNumber);
+				user = new User(name, username, password, email, city, null, gender, mobileNumber);
 			} catch (InvalidUserLoginException e) {
 				System.out.println(e.getMessage());
 			} catch (InvalidEmailException e) {
@@ -76,14 +76,24 @@ public class registserServlet extends HttpServlet {
 			} catch (InvalidUserNameException e) {
 				System.out.println(e.getMessage());
 			}
-		if (!UserDAO.getInstance().saveUser(user)) {
-			System.out.println("SMT wrong.");
-			RequestDispatcher view = request.getRequestDispatcher("somFail.html"); //TODO
-			view.forward(request, response);
-		}
+			
+			if(user==null || user.getUsername()==null || user.getUsername().isEmpty() || user.getEmail()==null ||
+					user.getCity()==null || user.getGender()==null || user.getMobileNumber()==null){
+				RequestDispatcher view = request.getRequestDispatcher("errorRegPage.html"); //TODO
+				view.forward(request, response);
+			}
+			else{
+				if (!UserDAO.getInstance().saveUser(user)) {
+					System.out.println("SMT wrong.");
+					RequestDispatcher view = request.getRequestDispatcher("errorRegPage.html"); //TODO
+					view.forward(request, response);
+				}
+				else{
+					RequestDispatcher view2 = request.getRequestDispatcher("loginPagee.html");
+					view2.forward(request, response);
+				}
+			}
 		
-		RequestDispatcher view2 = request.getRequestDispatcher("index.html");
-		view2.forward(request, response);
 	}
 
 }

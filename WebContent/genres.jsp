@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.*"%>
 <%@ page import="DB.*"%>
+<%@ page import="Model.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -43,15 +44,17 @@
 </head>
 <body>
 
+<% HttpSession sessionn = request.getSession();%>
+<%String username = (String)sessionn.getAttribute("username"); %>
+
 
 <body background = "coll.jpg"/>
 <div id="slide-menu">
 <ul class="navigation">
-<li><a href="#">Profile</a></li>
-<li><a href="#">Browse</a></li>
-<li><a href="#">My Playlists</a></li>
+<li><a href="user.jsp">Profile</a></li>
+<li><a href="genres.jsp">Browse</a></li>
+<li><a href="user.jsp">My Playlists</a></li>
 <li><a href="#">Users</a></li>
-<li><a href="#">Demo Link</a></li>
 </ul>
 </div>
 
@@ -68,22 +71,24 @@
 				<input type="text" name="search_text" id="search_text" placeholder="Search"/>
 				<input type="button" name="search_button" id="search_button"></a>
 			</form>
-		</li>
-		<li>
-			<a href="#">Application</a>
-		</li>
-		<li>
-			<a href="#">Board</a>
+			
 		</li>
 		
+		
+		
 		<li id="options">
-			<a href="#">Options</a>
+			<a href="user.jsp"><%=username%></a>
+			<form action = "logout" method="post">
+		<input type = "submit" value = "logout" class = "nav2">
+		</form>
 			<ul class="subnav">
-				<li><a href="#">Update Profile</a></li>
-				<li><a href="#">Log out</a></li>
+			
+				
 			</ul>
 		</li>
 	</ul>
+	
+	
 
 <div class="container">
 <div class = "row">
@@ -121,7 +126,6 @@
         <% String picture = "img/"+(entry.getKey())+ ".png"; %>
         <li class="box"><h4><%= "&nbsp&nbsp&nbsp&nbsp" + entry.getValue()    
         %></h4>
-        ?param1="+lat+"&param2="+lon
         <a href=<%= "\"albums.jsp?Id="+entry.getKey()+"\""%> class="magnifier"><img alt="" src="<%=picture %>"></a></li> 
 		<% }%>
         </ul>

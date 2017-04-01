@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import DB.DatabaseManager;
+import DB.PlayListDAO;
 import DB.UserDAO;
+import Model.User;
 
 /**
  * Servlet implementation class loginServlett
@@ -33,14 +35,17 @@ public class loginServlet extends HttpServlet {
 			
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
-			
 			String htmlFile;
 			
 			if(UserDAO.getInstance().isValidLogin(username, password)){
-				htmlFile = "successLoginPage.html"; //TODO
+				HttpSession session = request.getSession();
+				session.setAttribute("username", username);
+				session.setAttribute("isLogged", true);
+//				User user = (User) session.getAttribute("currentSessionUser");
+				htmlFile = "genres.jsp";
 			}
 			else{
-				htmlFile = "loginFailurePage.html"; //TODO
+				htmlFile = "errorloginPage.html";
 			}
 			
 			RequestDispatcher view = request.getRequestDispatcher(htmlFile);

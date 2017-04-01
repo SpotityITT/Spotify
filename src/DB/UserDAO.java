@@ -20,9 +20,14 @@ import Model.User;
 
 public class UserDAO {
 	
-	private static final String SELECT_ALL_USERS = "SELECT name,username,password,email,city,gender,birthday,mobilenumber,"
+	
+	private static final String SELECT_ALL_USERS = "SELECT userId,name,username,password,email,city,gender,birthday,mobilenumber,"
 			+ "profilephoto_path from users"; 
 	private static UserDAO instance;
+	private static final String SELECT_USER = "SELECT userId,name,username,password,email,city,gender,birthday,mobilenumber,"
+			+ "profilephoto_path from users where username = ?;";
+
+	
 
 	private UserDAO() {
 
@@ -43,7 +48,6 @@ public class UserDAO {
 					+ "VALUES(?,?,?,?,?,?,?,?,?)";
 			PreparedStatement statement = DatabaseManager.getInstance().getConnection().prepareStatement(sql);
 		
-
 			// Date sqlDate = DateFormat.parse(5, user.getBirthday());
 		
 			statement.setString(1, user.getName());
@@ -75,14 +79,15 @@ public class UserDAO {
 		try {
 			Connection connection = DatabaseManager.getInstance().getConnection();
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT username, password FROM users WHERE username = ? AND password = ?");
+					.prepareStatement("SELECT username, password FROM spotify.users WHERE username = ? AND password = ?");
 
 			ps.setString(1, username);
 			ps.setString(2, password);
-
+			System.out.println(username);
+			System.out.println(password);
 			ResultSet rs = ps.executeQuery();
-
-			if (rs.next() == false) {
+			
+			if (rs.next()==false) {
 				System.out.println("Wrong credentials.");
 				return false;
 			}
@@ -95,25 +100,72 @@ public class UserDAO {
 	}
 	
 	
-	 public List<User> getAllUsers() throws InvalidUserLoginException, InvalidEmailException, InvalidPasswordException, InvalidMobileNumberException, InvalidNameException, InvalidUserNameException {
-	        List<User> users = new ArrayList<User>();
-	        Statement st = null;
+//	 public List<User> getAllUsers() throws InvalidUserLoginException, InvalidEmailException, InvalidPasswordException, InvalidMobileNumberException, InvalidNameException, InvalidUserNameException {
+//	        List<User> users = new ArrayList<User>();
+//	        Statement st = null;
+//	        try {
+//	            st = DatabaseManager.getInstance().getConnection().createStatement();
+//
+//	            ResultSet resultSet = st.executeQuery(SELECT_ALL_USERS);
+//	            while (resultSet.next()) {
+//	                User user = new User( resultSet.getInt("userId"),
+//	                					resultSet.getString("name"),
+//	                					resultSet.getString("username"), 
+//	                					resultSet.getString("password"),
+//	                					resultSet.getString("city"),
+//	                					resultSet.getString("gender"),
+//	                					resultSet.getString("mobileNumber"),
+//	                					resultSet.getDate("birthday"), 
+//	                					resultSet.getString("mobileNumber"));
+//	            
+//	              
+//	                users.add(user);
+//	            }
+//
+//	        } catch (SQLException e) {
+//
+//	            System.out.println("Error in DB");
+//	            e.printStackTrace();
+//
+//	        } finally {
+//	                    try {
+//							st.close();
+//						} catch (SQLException e) {
+//							System.out.println("ops");
+//						}
+//	               
+//	        }
+//	        return users;
+//	    }
+//	 
+	 
+	 public User getUser(String username)  {
+	        User user = null;
+	        PreparedStatement ps = null;
+	        System.out.println("V DB SME" +username);
+	        
 	        try {
-	            st = DatabaseManager.getInstance().getConnection().createStatement();
-
-	            ResultSet resultSet = st.executeQuery(SELECT_ALL_USERS);
+				ps = DatabaseManager.getInstance().getConnection().prepareStatement(SELECT_USER);
+				ps.setString(1, username);
+	            ResultSet resultSet = ps.executeQuery();
+	            
 	            while (resultSet.next()) {
-	                User user = new User(resultSet.getString("name"),
-	                					resultSet.getString("username"), 
-	                					resultSet.getString("password"),
-	                					resultSet.getString("city"),
-	                					resultSet.getString("gender"),
-	                					resultSet.getString("mobileNumber"),
-	                					resultSet.getDate("birthday"), 
-	                					resultSet.getString("mobileNumber"));
+	                try {
+						user = new User( resultSet.getString("name"),
+											resultSet.getString("username"), 
+											resultSet.getString("password"),
+											resultSet.getString("email"),
+											resultSet.getString("city"),
+											resultSet.getDate("birthday"),
+											resultSet.getString("gender"),
+											resultSet.getString("mobileNumber"));
+					} catch (InvalidUserLoginException | InvalidEmailException | InvalidPasswordException
+							| InvalidMobileNumberException | InvalidNameException | InvalidUserNameException e) {
+						System.out.println("Invalid data.");
+					}
 	                user.setId(resultSet.getInt("userId"));
+	                System.out.println("Eho" +user);
 	              
-	                users.add(user);
 	            }
 
 	        } catch (SQLException e) {
@@ -123,14 +175,17 @@ public class UserDAO {
 
 	        } finally {
 	                    try {
-							st.close();
+							ps.close();
 						} catch (SQLException e) {
 							System.out.println("ops");
 						}
 	               
 	        }
-	        return users;
+	        return user;
 	    }
+	 
+	 
+	 
 
 
 }

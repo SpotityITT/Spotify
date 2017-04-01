@@ -45,15 +45,17 @@
 </head>
 <body>
 
+<% HttpSession sessionn = request.getSession();%>
+<%String username = (String)sessionn.getAttribute("username"); %>
+
 
 <body background = "coll.jpg"/>
 <div id="slide-menu">
 <ul class="navigation">
-<li><a href="#">Profile</a></li>
-<li><a href="#">Browse</a></li>
+<li><a href="user.jsp">Profile</a></li>
+<li><a href="genres.jsp">Browse</a></li>
 <li><a href="#">My Playlists</a></li>
 <li><a href="#">Users</a></li>
-<li><a href="#">Demo Link</a></li>
 </ul>
 </div>
 
@@ -71,15 +73,9 @@
 				<input type="button" name="search_button" id="search_button"></a>
 			</form>
 		</li>
-		<li>
-			<a href="#">Application</a>
-		</li>
-		<li>
-			<a href="#">Board</a>
-		</li>
 		
 		<li id="options">
-			<a href="#">Options</a>
+			<a href="#"><%=username %></a>
 			<ul class="subnav">
 				<li><a href="#">Update Profile</a></li>
 				<li><a href="#">Log out</a></li>
@@ -97,11 +93,11 @@
 
 <header class="social-header ">
   <div class="social-wrap">
-    <img class="cover-photo" alt="Cover photo" src="user.jpg">
+    <img class="cover-photo" alt="Cover photo" src="backgr.jpg">
      <div class="profile-container">
        <div class="duplicate-image"></div>
-       <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/18320/profile/profile-512_3.jpg" alt="" class="profile-photo" />
-       <span class="name">Hans Engebretsen<span class="title">Internets Designer</span><span class="stats">5,000 Followers | 1 Million views</span></span>
+       <img src="userimg.png" alt="" class="profile-photo" />
+       <span class="name"><%=UserDAO.getInstance().getUser(username).getName()%><span class="title"><%=UserDAO.getInstance().getUser(username).getUsername()%></span><span class="stats"><%=UserDAO.getInstance().getUser(username).getGender() %> | <%=UserDAO.getInstance().getUser(username).getCity() %></span></span>
      </div>
   </div>
 </header>
@@ -117,14 +113,13 @@
   <div id="content">
     <div class="container">
       <div class="row">
-          <h1>My Playlists</h1>
         <div class="clear"></div>
         <ul class="portfolio clearfix">
-        <% for(Map.Entry<Integer,String> entry : AlbumDAO.getInstance().getAllGenres().entrySet()) { %>
-        <% String picture = "img/"+(entry.getKey())+ ".png"; %>
-        <li class="box"><h4><%= "&nbsp&nbsp&nbsp&nbsp" + entry.getValue()    
+        <% for(Playlist p : PlayListDAO.getInstance().getUserPlaylists(UserDAO.getInstance().getUser(username).getId())) { %>
+        <% String picture = "pll.png"; %>
+        <li class="box"><h4><%= "&nbsp&nbsp&nbsp&nbsp" + p.getTitle()    
         %></h4>
-        <a href=<%= "\"albums.jsp?Id="+entry.getKey()+"\""%> class="magnifier"><img alt="" src="<%=picture %>"></a></li> 
+        <a href=<%= "\"songInPlaylist.jsp?playListId="+p.getPlaylistId()+"\""%> class="magnifier"><img alt=""  width=250px; height = 220px; src="<%=picture %>" ></a></li> 
 		<% }%>
         </ul>
       </div>

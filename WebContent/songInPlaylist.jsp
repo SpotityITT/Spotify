@@ -2,7 +2,6 @@
     pageEncoding="ISO-8859-1"%>
     <%@page import = "DB.*" %>
      <%@page import = "Model.*" %>
-      <%@page import = "java.util.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -24,8 +23,7 @@
         ==================================================-->
 <link href="style.css" rel="stylesheet">
 <link href="font-awesome.min.css" rel="stylesheet">
-<link href="csss.css" rel="stylesheet">
-<link href="comment.css" rel="stylesheet">
+<link href="searchsong.css" rel="stylesheet">
 <!--=================================================  
         Google Fonts
          ==================================================-->
@@ -40,21 +38,20 @@
     <link href="flatnav.css" rel="stylesheet">
 		<meta name="robots" content="noindex,follow" />
     
-    
-    
-    
 </head>
 
 <body>
 
+<% HttpSession sessionn = request.getSession();%>
+<%String username = (String)sessionn.getAttribute("username"); %>
+
 <body background = "bg.png"/>
 <div id="slide-menu">
 <ul class="navigation">
-<li><a href="#">Profile</a></li>
-<li><a href="#">Browse</a></li>
+<li><a href="user.jsp">Profile</a></li>
+<li><a href="genres.jsp">Browse</a></li>
 <li><a href="#">My Playlists</a></li>
 <li><a href="#">Users</a></li>
-<li><a href="#">Demo Link</a></li>
 </ul>
 </div>
 
@@ -72,15 +69,9 @@
 				<input type="button" name="search_button" id="search_button"></a>
 			</form>
 		</li>
-		<li>
-			<a href="#">Application</a>
-		</li>
-		<li>
-			<a href="#">Board</a>
-		</li>
 		
 		<li id="options">
-			<a href="#">Options</a>
+			<a href="user.jsp"><%=username%></a>
 			<ul class="subnav">
 				<li><a href="#">Update Profile</a></li>
 				<li><a href="#">Log out</a></li>
@@ -94,58 +85,27 @@
 </div>
 </div>
 
- <% String albumId =request.getParameter("Id1");%>
- <%int j = Integer.parseInt(albumId);%>
- <% Album a = null; %>
- 
- <%for(Integer x : AlbumDAO.getInstance().getAllGenres().keySet()){%>
- <%for(Album album : AlbumDAO.getInstance().getGenreAlbums(x)) { %>
- <%if(album.getId()==j){ %>
- <%a = album;%>
- <%}}} %>
- 
- 
- <div class="bg-content">
-  <div id="content">
-    <div class="container">
-   
-      <div class="row">
-       <h1><%= "&nbsp&nbsp&nbsp&nbsp"+a.getTitle()   
-        %></h1>
-        <div class="clear"></div>
-        <ul class="portfolio clearfix">
-        <% int c=10; %>
-        <% String genreId =request.getParameter("Id");%>
-        <% String picture = "img/"+(c++)+".jpg"; %>
-     
-        <li class="box">
-         <a href=<%= "\"songs.jsp?Id1="+a.getId()+"\""%> class="magnifier"><img alt="" width=260px; height = 250px; src="<%=picture %>" ></a></li>
-              
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class='center-container'>
   <div class='center'>
     <div id='ui'>
       <header>
-        <h1><%=a.getArtist() + " - "+ " ' " + a.getTitle()+ " ' "%></h1>
+      <h1><%=username%> 's  Playlist</h1>
       </header>
       <main>
         <div class='split-l'></div>
         <div class='split-l'></div>
         <div id='songs'>
           <div class='song-set'>
-          <% int i = 1; %>
-          <%for(Song song : SongDAO.getInstance().getAllSongsFromAlbum(j)) { %>
-          <form action="search.jsp" method="get">
-            <button type = "submit">+</button>
-            </form>
-            <div class='song'>
+          <%int i = 1; %>
+            <% String plId =request.getParameter("playListId");%>
+       <%int j = Integer.parseInt(plId); %>
+          <% if(PlayListDAO.getInstance().getAllSongsFromPlaylist(j,UserDAO.getInstance().getUser(username).getId())!=null && PlayListDAO.getInstance().getAllSongsFromPlaylist(j,UserDAO.getInstance().getUser(username).getId()).size()>0){%>
+          
+          	<%for(Song song : PlayListDAO.getInstance().getAllSongsFromPlaylist(j,UserDAO.getInstance().getUser(username).getId())) { %>
+             <div class='song'>
               <audio src='<%=i++%>.mp3'></audio>
-              <img src='music.png' width=46px; height=40px;>
+              <img src='musicc.png' width=46px; height=40px;>
               <div class='details'>
                 <div class='name'><%= song.getTitle() %></div>
                 <div class='producer'><%= song.getArtist() %></div>
@@ -158,114 +118,17 @@
                 <i class='material-icons prv'>fast_rewind</i>
                 <i class='material-icons nxt'>fast_forward</i>
                 <div class='length'>0:00</div>  
-              </div>
-             
+              </div>    
             </div>
              <div class='split-l'></div>
-            <%} %>
+            <%}} %>
+           
             </div>
           </div>
       </main>
     </div>
   </div>
 </div>
-
-
-<div class="comments-app" ng-app="commentsApp" ng-controller="CommentsController as cmntCtrl">
-  <h1>Comments</h1>
-  
- 
-    
-  <form id="enquiry" action = "songs2.jps" method="post">
-  <textarea maxlength="140" name="message" id="message" placeholder="Add your comment!"></textarea>
-  <input type="submit" value="Add Comment">
-	</form>
-	
-	
- <%
-String keyword = "";
-if(request.getParameter("search_text") != null) {
-	keyword = request.getParameter("search_text");
-}
-%>
-
-  <!-- Comments List -->
-  <div class="comments">
-    <!-- Comment -->
-    <!-- Comment - Dummy -->
-   =
-    <div class="comment">
-      <!-- Comment Avatar -->
-      <div class="comment-avatar">
-        <img src="http://gravatar.com/avatar/412c0b0ec99008245d902e6ed0b264ee?s=80">
-      </div>
-
-      <!-- Comment Box -->
-      <div class="comment-box">
-        <div class="comment-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto temporibus iste nostrum dolorem natus recusandae incidunt voluptatum.</div>
-        <div class="comment-footer">
-          <div class="comment-info">
-            <span class="comment-author">
-              <a href="mailto:sexar@pagelab.io">Sexar</a>
-            </span>
-            <span class="comment-date">Feb 2, 2013 11:32:04 PM</span>
-          </div>
-          <div class="comment-actions">
-            <a href="#">Reply</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-  </div>
-</div>
-
-<script type="text/javascript" src="jquery-1.8.3.js"></script>
-<script type="text/javascript">
-(function(){
-  'use strict';
-  
-  angular
-    .module('commentsApp', [])
-    .controller('CommentsController', CommentsController);
-  
-  // Inject $scope dependency.
-  CommentsController.$inject = ['$scope'];
-  
-  // Declare CommentsController.
-  function CommentsController($scope) {
-    var vm = this;
-    
-    // Current comment.
-    vm.comment = {};
-
-    // Array where comments will be.
-    vm.comments = [];
-
-    // Fires when form is submited.
-    vm.addComment = function() {
-      // Fixed img.
-      vm.comment.avatarSrc = 'http://lorempixel.com/200/200/people/';
-
-      // Add current date to the comment.
-      vm.comment.date = Date.now();
-
-      vm.comments.push( vm.comment );
-      vm.comment = {};
-
-      // Reset clases of the form after submit.
-      $scope.form.$setPristine();
-    }
-
-    // Fires when the comment change the anonymous state.
-    vm.anonymousChanged = function(){
-      if(vm.comment.anonymous)
-        vm.comment.author = "";
-    }
-  }
-
-})();</script>
-
 
 
 
@@ -426,41 +289,6 @@ $(document).ready
 }
 
 </script>
-
-
-
-
-<script type="text/javascript">
-
-$(document).ready(function () {
-    var comment = $('form#enquiry textarea'),
-        counter = '',
-        counterValue = 140, //change this to set the max character count
-        minCommentLength = 10, //set minimum comment length
-        $commentValue = comment.val(),
-        $commentLength = $commentValue.length,
-        submitButton = $('form#enquiry input[type=submit]').hide();
-  
-    $('form').prepend('<span class="counter"></span>').append('<p class="info">Min length: <span></span></p>');
-    counter = $('span.counter');
-    counter.html(counterValue); //display your set max length
-    comment.attr('maxlength', counterValue); //apply max length to textarea
-    $('form').find('p.info > span').html(minCommentLength);
-    // everytime a key is pressed inside the textarea, update counter
-    comment.keyup(function () {
-      var $this = $(this);
-      $commentLength = $this.val().length; //get number of characters
-      counter.html(counterValue - $commentLength); //update counter
-      if ($commentLength > minCommentLength - 1) {
-        submitButton.fadeIn(200);
-      } else {
-        submitButton.fadeOut(200);
-      }
-    });
-  });
-  
-  </script>
-
 
 </body>
 </html>

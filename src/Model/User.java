@@ -46,7 +46,7 @@ public class User {
 	private Matcher matcher = null;
 	
 	
-	public User(String name,String username, String password, String email, String city, String gender, Date birthday, String mobileNumber) throws InvalidUserLoginException, InvalidEmailException, InvalidPasswordException, InvalidMobileNumberException, InvalidNameException, InvalidUserNameException {
+	public User(String name,String username, String password, String email, String city, Date birthday, String gender, String mobileNumber) throws InvalidUserLoginException, InvalidEmailException, InvalidPasswordException, InvalidMobileNumberException, InvalidNameException, InvalidUserNameException {
 		if(this.patternFinder(NAME_PATTERN, name)){
 			this.name = name;
 			System.out.println("SUCCESS");
@@ -290,7 +290,9 @@ public class User {
 		return this.birthday;
 	}
 
-
+	public int getId(){
+		return this.userId;
+	}
 
 	public void setId(int id) {
 		// TODO Auto-generated method stub

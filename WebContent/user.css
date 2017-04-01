@@ -102,7 +102,7 @@ body {
   height: 100%;
   overflow: hidden;
   text-align: center;
-  background-color: white;
+  background-color: #777777;
   box-shadow: 1px 0 0 rgba(0, 0, 0, 0.1), 1px 0 2px rgba(0, 0, 0, 0.1), 1px 0px 0 rgba(255, 255, 255, 0.55);
   width: 0;
   opacity: 0;
@@ -124,7 +124,7 @@ body {
   -ms-transform: scale(1, 1);
   -webkit-transform: scale(1, 1);
   transform: scale(1, 1);
-  background-image: url("user.jpg");
+  background-image: url("backgr.jpg");
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
   opacity: 0.7;
   -webkit-filter: blur(8px);
@@ -140,7 +140,7 @@ body {
   text-decoration: none;
   text-transform: uppercase;
   text-shadow: rgba(0, 0, 0, 0.7) 1px 1px 5px;
-  color: white;
+  color: black;
   font-weight: lighter;
   font-size: 20px;
   width: 100%;

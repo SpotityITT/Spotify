@@ -116,5 +116,22 @@ public class SongDAO {
 		}
 		return Collections.unmodifiableList(songsInAlbum);
 	}
+	
+	
+	public void increaseTimesPlayed(int song_id){
+		String sql = "update spotify.songs set times_played=times_played+1 where songId = ?";	
+		PreparedStatement ps=null;
+			try {
+				ps = connection.prepareStatement(sql);
+				ps.setInt(1, song_id);
+				int rowsAff = ps.executeUpdate();
+				if(rowsAff>0){
+					System.out.println("success");
+				}
+			} catch (SQLException e) {
+				System.out.println("DB problem");
+			}
+		
+	}
 
 }

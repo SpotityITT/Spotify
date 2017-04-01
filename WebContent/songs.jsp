@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
     <%@page import = "DB.*" %>
      <%@page import = "Model.*" %>
+     <%@page import = "java.util.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -46,14 +47,16 @@
 
 <body>
 
+<% HttpSession sessionn = request.getSession();%>
+<%String username = (String)sessionn.getAttribute("username"); %>
+
 <body background = "bg.png"/>
 <div id="slide-menu">
 <ul class="navigation">
-<li><a href="#">Profile</a></li>
-<li><a href="#">Browse</a></li>
+<li><a href="user.jsp">Profile</a></li>
+<li><a href="genres.jsp">Browse</a></li>
 <li><a href="#">My Playlists</a></li>
 <li><a href="#">Users</a></li>
-<li><a href="#">Demo Link</a></li>
 </ul>
 </div>
 
@@ -71,15 +74,9 @@
 				<input type="button" name="search_button" id="search_button"></a>
 			</form>
 		</li>
-		<li>
-			<a href="#">Application</a>
-		</li>
-		<li>
-			<a href="#">Board</a>
-		</li>
 		
 		<li id="options">
-			<a href="#">Options</a>
+			<a href="#"><%=username%></a>
 			<ul class="subnav">
 				<li><a href="#">Update Profile</a></li>
 				<li><a href="#">Log out</a></li>
@@ -109,16 +106,13 @@
     <div class="container">
    
       <div class="row">
-       <h1><%= "&nbsp&nbsp&nbsp&nbsp"+a.getTitle()   
-        %></h1>
         <div class="clear"></div>
         <ul class="portfolio clearfix">
         <% int c=10; %>
         <% String genreId =request.getParameter("Id");%>
-        <% String picture = "img/"+(c++)+".jpg"; %>
      
         <li class="box">
-         <a href=<%= "\"songs.jsp?Id1="+a.getId()+"\""%> class="magnifier"><img alt="" width=260px; height = 250px; src="<%=picture %>" ></a></li>
+         <a href=<%= "\"songs.jsp?Id1="+a.getId()+"\""%> class="magnifier"><img alt="" ></a></li>
               
         </ul>
       </div>
@@ -129,6 +123,10 @@
 <div class='center-container'>
   <div class='center'>
     <div id='ui'>
+  
+       <%User u = UserDAO.getInstance().getUser(username); %>  
+      <%List<Playlist> pl = PlayListDAO.getInstance().getUserPlaylists(u.getId());%>
+    
       <header>
         <h1><%=a.getArtist() + " - "+ " ' " + a.getTitle()+ " ' "%></h1>
       </header>
@@ -139,20 +137,19 @@
           <div class='song-set'>
           <% int i = 1; %>
           <%for(Song song : SongDAO.getInstance().getAllSongsFromAlbum(j)) { %>
-             
-		<% int playlistId = PlayListDAO.getInstance().getPlaylistId(playlist);%>
-		<form action = <%= "\"albums.jsp?Id="+song.getId()+"&song_id="song.getId()+"\""%>"\""%> method = "post">
-		<%int songId = song.getId(); %>
-       <select name="playlistName">
-          
+          <%int playlistId = 0; %>
+          <%if(pl!=null && pl.size()>0){ %>
+		<% playlistId = pl.get(0).getPlaylistId();%>
+		<%} %>
+		<form action = <%= "\"addSong.jsp?playlistId="+playlistId+"&songId="+song.getId()+"&albumId="+a.getId()+"\""%> method = "post">
+		<%int songId = song.getId(); %>	
+       <select name="playlistName" >    
        </select>
-     <input type="submit" name="playlistName" value="Select Color" />
+     <input type="submit" name="playlistName" value="+"/>
     </form>		
-	
-            
-            <div class='song'>
+          	 <div class='song'>
               <audio src='<%=i++%>.mp3'></audio>
-              <img src='music.png' width=46px; height=40px;>
+              <img src='musicc.png' width=46px; height=40px;>
               <div class='details'>
                 <div class='name'><%= song.getTitle() %></div>
                 <div class='producer'><%= song.getArtist() %></div>
